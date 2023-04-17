@@ -3,13 +3,31 @@ package me.brisson.newsapp.data.api.service
 import com.skydoves.sandwich.ApiResponse
 import me.brisson.newsapp.data.api.dto.ResponseDTO
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface NewsService {
 
-    @GET("v2/everything?q={query}")
-    fun getEverything(@Path("query") query: String): ApiResponse<ResponseDTO>
+    @GET("everything")
+    suspend fun getEverything(
+        @Query("q") query: String?,
+        @Query("sortBy") sortBy: String?,
+        @Query("sources") sources: String?,
+        @Query("from") dateFrom: String?,
+        @Query("to") dateTo: String?,
+    ): ApiResponse<ResponseDTO>
 
-    @GET("v2/top-headlines/sources")
-    fun getSources(): ApiResponse<ResponseDTO>
+    @GET("top-headlines")
+    suspend fun getTopHeadlines(
+        @Query("q") query: String?,
+        @Query("country") countryCode: String?,
+        @Query("category") category: String?,
+        @Query("sources") sources: String?,
+    ): ApiResponse<ResponseDTO>
+
+    @GET("top-headlines/sources")
+    suspend fun getSources(
+        @Query("country") countryCode: String?,
+        @Query("category") category: String?,
+    ): ApiResponse<ResponseDTO>
+
 }
